@@ -8,11 +8,36 @@ var router = express.Router();
 
 router.get("/getStudent/:studentId", async (req, res) => {
   try {
+    console.log("inside student Id");
     const { studentId } = req.params;
     const student = await Students.findOne({ studentId: studentId });
+
     res.status(200).json({
       message: "student details",
-      data: student,
+      data: student.fullName,
+    });
+  } catch (err) {
+    res.status(400).send(err);
+  }
+});
+
+router.get("/getStudentDates", async (req, res) => {
+  try {
+    const students = await Students.find();
+    let dataG = [];
+    const studentDates = students.map(function (student) {
+      let studentDate = student.dateAdded;
+      let data = [];
+      if (student.dateAdded == studentDate) {
+        data.push(student);
+      }
+      dataG.push(data);
+      console.log(data);
+    });
+    console.log(dataG);
+    res.status(200).json({
+      message: "student details",
+      data: dataG,
     });
   } catch (err) {
     res.status(400).send(err);
@@ -20,6 +45,7 @@ router.get("/getStudent/:studentId", async (req, res) => {
 });
 
 router.get("/topfive", async (req, res) => {
+  console.log("inside top five student");
   const students = await scores.find().sort({ score: "desc" }).limit(5);
   res.status(200).json({
     data: students,
