@@ -2,16 +2,16 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-const teachers = new Schema({
-  teacherId: {
-    type: String,
-    required: true,
+const teachers = new Schema(
+  {
+    fullName: {
+      type: String,
+      required: true,
+    },
   },
-
-  fullName: {
-    type: String,
-    required: true,
-  },
-});
+  {
+    timestamps: true,
+  }
+);
 
 module.exports = mongoose.model("teachers", teachers);
